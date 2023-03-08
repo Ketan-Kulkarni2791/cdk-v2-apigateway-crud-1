@@ -8,6 +8,20 @@ class IAMConstruct:
     """Class holds methods for IAM resource creation"""
 
     @staticmethod
+    def create_managed_policy(
+            stack: Stack,
+            config: dict,
+            policy_name: str,
+            statements: List[iam.PolicyStatement]) -> iam.ManagedPolicy:
+        """Create managed policy for lambda roles with permissions for specific services."""
+        return iam.ManagedPolicy(
+            scope=stack,
+            id=f"{config['global']['app-name']}-{policy_name}-policy-id",
+            managed_policy_name=f"{config['global']['app-name']}-{policy_name}-policy",
+            statements=statements
+        )
+
+    @staticmethod
     def get_kms_policy_document() -> iam.PolicyDocument:
         """KMS Policy Document"""
         policy_document = iam.PolicyDocument()

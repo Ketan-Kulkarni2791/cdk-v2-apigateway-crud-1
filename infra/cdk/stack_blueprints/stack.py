@@ -1,7 +1,7 @@
 """Main python file_key for adding resources to the application stack."""
 from typing import Dict, Any
 import aws_cdk
-import aws_cdk.aws_kms as kms
+# import aws_cdk.aws_kms as kms
 import aws_cdk.aws_lambda as _lambda
 import aws_cdk.aws_dynamodb as dynamodb
 from constructs import Construct

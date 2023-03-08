@@ -1,5 +1,5 @@
 """Module for creating KMS encryption key"""
-from typing import List
+# from typing import List
 from aws_cdk import Stack
 import aws_cdk.aws_iam as iam
 import aws_cdk.aws_kms as kms 

@@ -45,21 +45,21 @@ class MainProjectStack(aws_cdk.Stack):
             config=config,
             policy_doc=kms_pol_doc
         )
+        print(kms_key)
 
         # Infra for Lambda function creation -------------------------------------
-        lambdas = MainProjectStack.create_lambda_functions(
+        MainProjectStack.create_lambda_functions(
             stack=stack,
             config=config,
             # env=env,
-            kms_key=kms_key,
+            # kms_key=kms_key,
             # layers=layer
         )
 
     @staticmethod
     def create_lambda_functions(
             stack: aws_cdk.Stack,
-            config: dict,
-            kms_key: kms.Key) -> Dict[str, _lambda.Function]:
+            config: dict) -> Dict[str, _lambda.Function]:
         """Create placeholder lambda function and roles."""
 
         lambdas = {}

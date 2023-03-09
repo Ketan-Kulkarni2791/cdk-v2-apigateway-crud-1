@@ -7,7 +7,6 @@ import aws_cdk.aws_apigateway as aws_apigateway
 from constructs import Construct
 
 from .iam_construct import IAMConstruct
-from .kms_construct import KMSConstruct
 from .lambda_construct import LambdaConstruct
 
 

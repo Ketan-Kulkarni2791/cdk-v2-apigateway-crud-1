@@ -88,3 +88,12 @@ class LambdaConstruct:
         policy_statement.add_actions("logs:StartQuery")
         policy_statement.add_resources(lambda_logs_arn)
         return policy_statement
+
+    @staticmethod
+    def get_dynamodb_policy() -> iam.PolicyStatement:
+        """Returns policy statement for managing dynamoDB resources and components."""
+        policy_statement = iam.PolicyStatement()
+        policy_statement.effect = iam.Effect.ALLOW
+        policy_statement.add_actions("dynamodb:*")
+        policy_statement.add_all_resources()
+        return policy_statement

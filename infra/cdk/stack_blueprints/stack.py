@@ -72,7 +72,8 @@ class MainProjectStack(aws_cdk.Stack):
             statements=[
                 LambdaConstruct.get_cloudwatch_policy(
                     config['global']['placeholder_lambdaLogsArn']
-                )
+                ),
+                LambdaConstruct.get_dynamodb_policy()
             ]
         )
 

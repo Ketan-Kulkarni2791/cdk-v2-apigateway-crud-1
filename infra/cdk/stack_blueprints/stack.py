@@ -1,9 +1,9 @@
 """Main python file_key for adding resources to the application stack."""
 from typing import Dict, Any
 import aws_cdk
-# import aws_cdk.aws_kms as kms
 import aws_cdk.aws_lambda as _lambda
 import aws_cdk.aws_dynamodb as dynamodb
+import aws_cdk.aws_apigateway as aws_apigateway
 from constructs import Construct
 
 from .iam_construct import IAMConstruct
@@ -37,23 +37,20 @@ class MainProjectStack(aws_cdk.Stack):
             )
         )
 
-        # KMS infra setup ------------------------------------------------------
-        kms_pol_doc = IAMConstruct.get_kms_policy_document()
-
-        kms_key = KMSConstruct.create_kms_key(
-            stack=stack,
-            config=config,
-            policy_doc=kms_pol_doc
-        )
-        print(kms_key)
-
         # Infra for Lambda function creation -------------------------------------
-        MainProjectStack.create_lambda_functions(
+        lambdas = MainProjectStack.create_lambda_functions(
             stack=stack,
             config=config,
             # env=env,
             # kms_key=kms_key,
             # layers=layer
+        )
+
+        # Infra for API Gateway creation ------------------------------------------
+        aws_apigateway.LambdaRestApi(
+            stack,
+            'serverless-api',
+            handler=lambdas["placeholder_lambda"],
         )
 
     @staticmethod
@@ -94,3 +91,5 @@ class MainProjectStack(aws_cdk.Stack):
             # layer=[layers["pandas"]],
             memory_size=3008,
         )
+
+        return lambdas

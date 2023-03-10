@@ -52,9 +52,11 @@ class MainProjectStack(aws_cdk.Stack):
             handler=lambdas["placeholder_lambda"],
         )
         health_serverless_api = serverless_api.root.add_resource('health')
-        health_serverless_api = serverless_api.root.add_resource('product')
-        health_serverless_api = serverless_api.root.add_resource('products')
-        # get_serverless_api.add_method('GET')
+        health_serverless_api.add_method('GET')
+        product_serverless_api = serverless_api.root.add_resource('product')
+        product_serverless_api.add_method('GET')
+        products_serverless_api = serverless_api.root.add_resource('products')
+        products_serverless_api.add_method('GET')
 
     @staticmethod
     def create_lambda_functions(

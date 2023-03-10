@@ -54,7 +54,8 @@ class MainProjectStack(aws_cdk.Stack):
         health_serverless_api = serverless_api.root.add_resource('health')
         health_serverless_api.add_method('GET')
         product_serverless_api = serverless_api.root.add_resource('product')
-        product_serverless_api.add_method(['GET', 'POST'])
+        product_serverless_api.add_method('GET')
+        product_serverless_api.add_method('POST')
         products_serverless_api = serverless_api.root.add_resource('products')
         products_serverless_api.add_method('GET')
 

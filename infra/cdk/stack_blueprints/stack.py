@@ -53,7 +53,6 @@ class MainProjectStack(aws_cdk.Stack):
         )
         get_serverless_api = serverless_api.root.add_resource('get_serverless_api')
         get_serverless_api.add_method('GET')
-    
 
     @staticmethod
     def create_lambda_functions(

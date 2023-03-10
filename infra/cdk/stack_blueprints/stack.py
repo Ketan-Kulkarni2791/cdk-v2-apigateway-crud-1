@@ -46,11 +46,15 @@ class MainProjectStack(aws_cdk.Stack):
         )
 
         # Infra for API Gateway creation ------------------------------------------
-        aws_apigateway.LambdaRestApi(
+        serverless_api = aws_apigateway.LambdaRestApi(
             stack,
             'serverless-api',
             handler=lambdas["placeholder_lambda"],
         )
+        get_serverless_api = serverless_api.root.add_resource('get_serverless_api')
+        get_serverless_api.add_method('GET')
+        
+        
 
     @staticmethod
     def create_lambda_functions(

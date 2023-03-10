@@ -60,7 +60,7 @@ class MainProjectStack(aws_cdk.Stack):
         product_serverless_api.add_method('DELETE')
         products_serverless_api = serverless_api.root.add_resource('products')
         products_serverless_api.add_method('GET')
-        deployment = aws_apigateway.Deployment(stack, "serverless-api", api=serverless_api)
+        deployment = aws_apigateway.Deployment(stack, "serverless-api-deploy", api=serverless_api)
         aws_apigateway.Stage(stack, "dev", deployment=deployment)
 
     @staticmethod

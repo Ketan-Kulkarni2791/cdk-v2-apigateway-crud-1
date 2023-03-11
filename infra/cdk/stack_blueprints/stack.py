@@ -46,20 +46,20 @@ class MainProjectStack(aws_cdk.Stack):
         )
 
         # Infra for API Gateway creation ------------------------------------------
-        serverless_api = aws_apigateway.LambdaRestApi(
+        aws_apigateway.LambdaRestApi(
             stack,
             'serverless-api',
             handler=lambdas["placeholder_lambda"],
         )
-        health_serverless_api = serverless_api.root.add_resource('health')
-        health_serverless_api.add_method('GET')
-        product_serverless_api = serverless_api.root.add_resource('product')
-        product_serverless_api.add_method('GET')
-        product_serverless_api.add_method('POST')
-        product_serverless_api.add_method('PATCH')  # To modify single item
-        product_serverless_api.add_method('DELETE')
-        products_serverless_api = serverless_api.root.add_resource('products')
-        products_serverless_api.add_method('GET')
+        # health_serverless_api = serverless_api.root.add_resource('health')
+        # health_serverless_api.add_method('GET')
+        # product_serverless_api = serverless_api.root.add_resource('product')
+        # product_serverless_api.add_method('GET')
+        # product_serverless_api.add_method('POST')
+        # product_serverless_api.add_method('PATCH')  # To modify single item
+        # product_serverless_api.add_method('DELETE')
+        # products_serverless_api = serverless_api.root.add_resource('products')
+        # products_serverless_api.add_method('GET')
         # deployment = aws_apigateway.Deployment(stack, "serverless-api-deploy", api=serverless_api)
         # aws_apigateway.Stage(stack, "dev", deployment=serverless_api)
 

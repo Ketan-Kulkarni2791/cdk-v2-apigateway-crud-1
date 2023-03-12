@@ -6,7 +6,6 @@ Returns-
     [dict]:
 
 """
-from typing import dict
 import os
 import json
 import boto3

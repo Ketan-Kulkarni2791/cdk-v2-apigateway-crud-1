@@ -18,13 +18,13 @@ db_table = os.environ['dynamoDBTableName']
 dynamodb_client = boto3.resource('dynamodb')
 table = dynamodb_client.Table(db_table)
 
-get_method = "GET"
-post_method = "POST"
-patch_method = "PATCH"
-delete_method = "DELETE"
-health_path = "/health"
-product = "/product"
-products = "/products"
+GET_METHOD = "GET"
+POST_METHOD = "POST"
+PATCH_METHOD = "PATCH"
+DELETE_METHOD = "DELETE"
+HEALTH_PATH = "/health"
+PRODUCT = "/product"
+PRODUCTS = "/products"
 
 
 def build_response(status_code, body=None) -> Dict:
@@ -115,25 +115,25 @@ def lambda_handler(event: dict, _context: dict) -> str:
     httpMethod = event["httpMethod"]
     path = event["path"]
 
-    if httpMethod == get_method and path == health_path:
+    if httpMethod == GET_METHOD and path == HEALTH_PATH:
         response = build_response(200)
-    elif httpMethod == get_method and path == product:
+    elif httpMethod == GET_METHOD and path == PRODUCT:
         response = get_product(event['queryStringParameters']['product_id'])
-    elif httpMethod == get_method and path == products:
+    elif httpMethod == GET_METHOD and path == PRODUCTS:
         response = get_products()
-    elif httpMethod == post_method and path == product:
+    elif httpMethod == POST_METHOD and path == PRODUCT:
         response = save_product(json.loads(event['body']))
-    elif httpMethod == patch_method and path == product:
+    elif httpMethod == PATCH_METHOD and path == PRODUCT:
         request_body = json.loads(event['body'])
         response = modify_product(
             request_body['product_id'],
             request_body['update_key'],
             request_body['update_value']
         )
-    elif httpMethod == delete_method and path == product:
+    elif httpMethod == DELETE_METHOD and path == PRODUCT:
         request_body = json.loads(event['body'])
         response = delete_product(request_body['product_id'])
     else:
         response = build_response(404, 'Not Found')
-    
+
     return response

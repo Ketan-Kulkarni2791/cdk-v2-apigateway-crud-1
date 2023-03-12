@@ -18,18 +18,18 @@ db_table = os.environ['dynamoDBTableName']
 dynamodb_client = boto3.resource('dynamodb')
 table = dynamodb_client.Table(db_table)
 
-getMethod = "GET"
-postMethod = "POST"
-patchMethod = "PATCH"
-deleteMethod = "DELETE"
-healthPath = "/health"
+get_method = "GET"
+post_method = "POST"
+patch_method = "PATCH"
+delete_method = "DELETE"
+health_path = "/health"
 product = "/product"
 products = "/products"
 
 
-def buildResponse(statusCode, body=None) -> Dict:
+def build_response(status_code, body=None) -> Dict:
     response = {
-        'statusCode': statusCode,
+        'status_code': status_code,
         'headers': {
             'Content-type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -39,18 +39,20 @@ def buildResponse(statusCode, body=None) -> Dict:
         response['body'] = json.dumps(body, cls=CustomEncoder)
     return response
 
-def getProduct(productId) -> Dict:
+
+def get_product(product_id) -> Dict:
     response = table.get_item(
         Key={
-            'productId': productId
+            'product_id': product_id
         }
     )
     if 'Item' in response:
-        return buildResponse(200, response['Item'])
+        return build_response(200, response['Item'])
     else:
-        return buildResponse(404, {'Message': f"ProductId {productId} not found."})
+        return build_response(404, {'Message': f"Product_id {product_id} not found."})
 
-def getProducts() -> Dict:
+
+def get_products() -> Dict:
     response = table.scan()
     result = response['Items']
 
@@ -60,25 +62,27 @@ def getProducts() -> Dict:
     body = {
         'products': result
     }
-    return buildResponse(200, body)
+    return build_response(200, body)
 
-def saveProduct(requestBody) -> Dict:
-    table.put_item(Item=requestBody)
+
+def save_product(request_body) -> Dict:
+    table.put_item(Item=request_body)
     body = {
         'Operation': 'SAVE',
         'Message': 'SUCCESS',
-        'Item': requestBody
+        'Item': request_body
     }
-    return buildResponse(200, body)
+    return build_response(200, body)
 
-def modifyProduct(productId, updateKey, updateValue) -> Dict:
+
+def modify_product(product_id, update_key, update_value) -> Dict:
     response = table.update_item(
         Key={
-            'productId': productId
+            'product_id': product_id
         },
-        UpdateExpression=f"Set {updateKey} = :value",
+        UpdateExpression=f"Set {update_key} = :value",
         ExpressionAttributeValues={
-            ':value': updateValue
+            ':value': update_value
         },
         ReturnValues='UPDATED_NEW'
     )
@@ -87,12 +91,13 @@ def modifyProduct(productId, updateKey, updateValue) -> Dict:
         'Message': 'SUCCESS',
         'UpdatedAttributes': response
     }
-    return buildResponse(200, body)
+    return build_response(200, body)
 
-def deleteProduct(productId) -> Dict:
+
+def delete_product(product_id) -> Dict:
     response = table.delete_item(
         Key={
-            'productId': productId
+            'product_id': product_id
         },
         ReturnValues='ALL_OLD'
     )
@@ -101,7 +106,8 @@ def deleteProduct(productId) -> Dict:
         'Message': "SUCCESS",
         'deletedItem': response
     }
-    return buildResponse(200, body)
+    return build_response(200, body)
+
 
 def lambda_handler(event: dict, _context: dict) -> str:
     """Main lambda handler for api gateway Lambda."""
@@ -109,23 +115,25 @@ def lambda_handler(event: dict, _context: dict) -> str:
     httpMethod = event["httpMethod"]
     path = event["path"]
 
-    if httpMethod == getMethod and path == healthPath:
-        response = buildResponse(200)
-    elif httpMethod == getMethod and path == product:
-        response = getProduct(event['queryStringParameters']['productId'])
-    elif httpMethod == getMethod and path == products:
-        response = getProducts()
-    elif httpMethod == postMethod and path == product:
-        response = saveProduct(json.loads(event['body']))
-    elif httpMethod == patchMethod and path == product:
-        requestBody = json.loads(event['body'])
-        response = modifyProduct(requestBody['productId'], requestBody['updateKey'],
-                                 requestBody['updateValue']
-                                )
-    elif httpMethod == deleteMethod and path == product:
-        requestBody = json.loads(event['body'])
-        response = deleteProduct(requestBody['productId'])
+    if httpMethod == get_method and path == health_path:
+        response = build_response(200)
+    elif httpMethod == get_method and path == product:
+        response = get_product(event['queryStringParameters']['product_id'])
+    elif httpMethod == get_method and path == products:
+        response = get_products()
+    elif httpMethod == post_method and path == product:
+        response = save_product(json.loads(event['body']))
+    elif httpMethod == patch_method and path == product:
+        request_body = json.loads(event['body'])
+        response = modify_product(
+            request_body['product_id'],
+            request_body['update_key'],
+            request_body['update_value']
+        )
+    elif httpMethod == delete_method and path == product:
+        request_body = json.loads(event['body'])
+        response = delete_product(request_body['product_id'])
     else:
-        response = buildResponse(404, 'Not Found')
+        response = build_response(404, 'Not Found')
     
     return response

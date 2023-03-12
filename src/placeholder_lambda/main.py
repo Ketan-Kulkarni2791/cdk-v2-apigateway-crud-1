@@ -109,9 +109,10 @@ def delete_product(product_id) -> Dict:
     return build_response(200, body)
 
 
-def lambda_handler(event: dict, _context: dict) -> str:
+def lambda_handler(event: dict, _context: dict) -> Dict:
     """Main lambda handler for api gateway Lambda."""
 
+    print(event)
     http_method = event["httpMethod"]
     path = event["path"]
 

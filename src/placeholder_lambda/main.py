@@ -112,25 +112,25 @@ def delete_product(product_id) -> Dict:
 def lambda_handler(event: dict, _context: dict) -> str:
     """Main lambda handler for api gateway Lambda."""
 
-    httpMethod = event["httpMethod"]
+    http_method = event["httpMethod"]
     path = event["path"]
 
-    if httpMethod == GET_METHOD and path == HEALTH_PATH:
+    if http_method == GET_METHOD and path == HEALTH_PATH:
         response = build_response(200)
-    elif httpMethod == GET_METHOD and path == PRODUCT:
+    elif http_method == GET_METHOD and path == PRODUCT:
         response = get_product(event['queryStringParameters']['product_id'])
-    elif httpMethod == GET_METHOD and path == PRODUCTS:
+    elif http_method == GET_METHOD and path == PRODUCTS:
         response = get_products()
-    elif httpMethod == POST_METHOD and path == PRODUCT:
+    elif http_method == POST_METHOD and path == PRODUCT:
         response = save_product(json.loads(event['body']))
-    elif httpMethod == PATCH_METHOD and path == PRODUCT:
+    elif http_method == PATCH_METHOD and path == PRODUCT:
         request_body = json.loads(event['body'])
         response = modify_product(
             request_body['product_id'],
             request_body['update_key'],
             request_body['update_value']
         )
-    elif httpMethod == DELETE_METHOD and path == PRODUCT:
+    elif http_method == DELETE_METHOD and path == PRODUCT:
         request_body = json.loads(event['body'])
         response = delete_product(request_body['product_id'])
     else:

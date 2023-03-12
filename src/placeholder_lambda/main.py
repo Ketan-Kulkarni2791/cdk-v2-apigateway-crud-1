@@ -6,7 +6,7 @@ Returns-
     [dict]:
 
 """
-from typing import Dict
+from typing import dict
 import os
 import json
 import boto3
@@ -27,7 +27,7 @@ PRODUCT = "/product"
 PRODUCTS = "/products"
 
 
-def build_response(status_code, body=None) -> Dict:
+def build_response(status_code, body=None) -> dict:
     response = {
         'status_code': status_code,
         'headers': {
@@ -40,7 +40,7 @@ def build_response(status_code, body=None) -> Dict:
     return response
 
 
-def get_product(product_id) -> Dict:
+def get_product(product_id) -> dict:
     response = table.get_item(
         Key={
             'product_id': product_id
@@ -52,7 +52,7 @@ def get_product(product_id) -> Dict:
         return build_response(404, {'Message': f"Product_id {product_id} not found."})
 
 
-def get_products() -> Dict:
+def get_products() -> dict:
     response = table.scan()
     result = response['Items']
 
@@ -65,7 +65,7 @@ def get_products() -> Dict:
     return build_response(200, body)
 
 
-def save_product(request_body) -> Dict:
+def save_product(request_body) -> dict:
     table.put_item(Item=request_body)
     body = {
         'Operation': 'SAVE',
@@ -75,7 +75,7 @@ def save_product(request_body) -> Dict:
     return build_response(200, body)
 
 
-def modify_product(product_id, update_key, update_value) -> Dict:
+def modify_product(product_id, update_key, update_value) -> dict:
     response = table.update_item(
         Key={
             'product_id': product_id
@@ -94,7 +94,7 @@ def modify_product(product_id, update_key, update_value) -> Dict:
     return build_response(200, body)
 
 
-def delete_product(product_id) -> Dict:
+def delete_product(product_id) -> dict:
     response = table.delete_item(
         Key={
             'product_id': product_id
@@ -109,7 +109,7 @@ def delete_product(product_id) -> Dict:
     return build_response(200, body)
 
 
-def lambda_handler(event: dict, _context: dict) -> Dict:
+def lambda_handler(event: dict, _context: dict) -> dict:
     """Main lambda handler for api gateway Lambda."""
 
     print(event)

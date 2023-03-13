@@ -51,6 +51,9 @@ class MainProjectStack(aws_cdk.Stack):
             'serverless-api',
             handler=lambdas["placeholder_lambda"],
         )
+        serverless_api.add_api_key(
+            "ApiKey", api_key_name="ApiKey", value="1234567890abcdefghij"
+        )
 
         health_serverless_api = serverless_api.root.add_resource('health')
         health_serverless_api.add_method('GET')

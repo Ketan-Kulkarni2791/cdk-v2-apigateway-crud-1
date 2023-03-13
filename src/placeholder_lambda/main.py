@@ -183,6 +183,39 @@ def modify_product(product_id, update_key, update_value) -> dict:
 
 
 def delete_product(product_id) -> dict:
+    """
+
+    URL : https://w3nj9p4xh6.execute-api.ap-south-1.amazonaws.com/prod/product 
+    Body: {
+        "product_id": "1001"
+    }
+    Response : {
+        "Operation": "DELETE",
+        "Message": "SUCCESS",
+        "deletedItem": {
+            "Attributes": {
+                "price": 100.0,
+                "productid": "1001",
+                "color": "Red"
+            },
+            "ResponseMetadata": {
+                "RequestId": "0UHIE5PG3H2VKRIPSIK97AU74JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+                "HTTPStatusCode": 200,
+                "HTTPHeaders": {
+                    "server": "Server",
+                    "date": "Mon, 13 Mar 2023 12:45:05 GMT",
+                    "content-type": "application/x-amz-json-1.0",
+                    "content-length": "81",
+                    "connection": "keep-alive",
+                    "x-amzn-requestid": "0UHIE5PG3H2VKRIPSIK97AU74JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+                    "x-amz-crc32": "1764259650"
+                },
+                "RetryAttempts": 0
+            }
+        }
+    }
+    
+    """
     response = table.delete_item(
         Key={
             'productid': product_id

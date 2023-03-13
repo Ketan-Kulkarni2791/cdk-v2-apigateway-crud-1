@@ -11,7 +11,7 @@ import json
 import logging
 import boto3
 
-from .custom_encoder import CustomEncoder
+from .custom_encoder.custom_encoder import CustomEncoder
 
 logging.getLogger().setLevel(logging.INFO)
 

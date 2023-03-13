@@ -8,10 +8,12 @@ Returns-
 """
 import os
 import json
+import logging
 import boto3
 
 from .custom_encoder import CustomEncoder
 
+logging.getLogger().setLevel(logging.INFO)
 
 db_table = os.environ['dynamoDBTableName']
 dynamodb_client = boto3.resource('dynamodb')
@@ -29,7 +31,7 @@ PRODUCTS = "/products"
 def lambda_handler(event: dict, _context: dict) -> dict:
     """Main lambda handler for api gateway Lambda."""
 
-    print(event)
+    logging.info("This is the event we received: %s", event)
     http_method = event["httpMethod"]
     path = event["path"]
 

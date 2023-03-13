@@ -4,7 +4,6 @@ Raises-
     error: lambda exception
 Returns-
     [dict]:
-
 """
 import os
 import json

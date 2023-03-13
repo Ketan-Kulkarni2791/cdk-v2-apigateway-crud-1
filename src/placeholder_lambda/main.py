@@ -60,7 +60,7 @@ def lambda_handler(event: dict, _context: dict) -> dict:
 
 def build_response(status_code) -> dict:
     response = {
-        'status_code': status_code,
+        'statusCode': status_code,
         'headers': {
             'Content-type': 'application/json',
             'Access-Control-Allow-Origin': '*'

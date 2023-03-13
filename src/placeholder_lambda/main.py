@@ -72,6 +72,15 @@ def build_response(status_code, body=None) -> dict:
 
 
 def get_product(product_id) -> dict:
+    """
+    URL : https://w3nj9p4xh6.execute-api.ap-south-1.amazonaws.com/prod/product?product_id=1003 
+    Params : {"product_id": 1003}
+    Response : {
+        "price": 480.0,
+        "productid": "1003",
+        "color": "Blue"
+    }
+    """
     response = table.get_item(
         Key={
             'productid': product_id
@@ -126,7 +135,7 @@ def save_product(request_body) -> dict:
 def modify_product(product_id, update_key, update_value) -> dict:
     response = table.update_item(
         Key={
-            'product_id': product_id
+            'productid': product_id
         },
         UpdateExpression=f"Set {update_key} = :value",
         ExpressionAttributeValues={

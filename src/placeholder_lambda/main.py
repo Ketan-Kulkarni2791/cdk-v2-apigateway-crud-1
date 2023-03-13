@@ -74,7 +74,7 @@ def build_response(status_code, body=None) -> dict:
 def get_product(product_id) -> dict:
     response = table.get_item(
         Key={
-            'product_id': product_id
+            'productid': product_id
         }
     )
     if 'Item' in response:
@@ -97,6 +97,23 @@ def get_products() -> dict:
 
 
 def save_product(request_body) -> dict:
+    """
+    URL : https://w3nj9p4xh6.execute-api.ap-south-1.amazonaws.com/prod/product 
+    Body: {
+        "productid": "1001",
+        "color": "Red",
+        "price": 100
+    }
+    Response : {
+        "Operation": "SAVE",
+        "Message": "SUCCESS",
+        "Item": {
+            "productid": "1001",
+            "color": "Red",
+            "price": 100
+        }
+    }
+    """
     table.put_item(Item=request_body)
     body = {
         'Operation': 'SAVE',

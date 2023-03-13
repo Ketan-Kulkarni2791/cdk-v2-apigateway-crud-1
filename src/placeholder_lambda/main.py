@@ -10,7 +10,7 @@ import json
 import logging
 import boto3
 
-# from custom_encoder.custom_encoder import CustomEncoder
+from custom_encoder.custom_encoder import CustomEncoder
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -58,7 +58,7 @@ def lambda_handler(event: dict, _context: dict) -> dict:
     return response
 
 
-def build_response(status_code) -> dict:
+def build_response(status_code, body=None) -> dict:
     response = {
         'statusCode': status_code,
         'headers': {
@@ -66,8 +66,8 @@ def build_response(status_code) -> dict:
             'Access-Control-Allow-Origin': '*'
         }
     }
-    # if body is not None:
-    #     response['body'] = json.dumps(body, cls=CustomEncoder)
+    if body is not None:
+        response['body'] = json.dumps(body, cls=CustomEncoder)
     return response
 
 

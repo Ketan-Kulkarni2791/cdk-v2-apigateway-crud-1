@@ -214,7 +214,7 @@ def delete_product(product_id) -> dict:
             }
         }
     }
-    
+
     """
     response = table.delete_item(
         Key={

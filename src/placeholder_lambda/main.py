@@ -59,7 +59,7 @@ def lambda_handler(event: dict, _context: dict) -> dict:
     return response
 
 
-def build_response(status_code, body=None) -> dict:
+def build_response(status_code) -> dict:
     response = {
         'status_code': status_code,
         'headers': {

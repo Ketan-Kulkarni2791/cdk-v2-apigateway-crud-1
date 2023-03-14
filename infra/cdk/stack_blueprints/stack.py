@@ -59,16 +59,11 @@ class MainProjectStack(aws_cdk.Stack):
         health_serverless_api.add_method('GET')
         product_serverless_api = serverless_api.root.add_resource('product')
         product_serverless_api.add_method('GET')
-        product_serverless_api.add_api_key(
-            "GetApiKey", api_key_name="GetApiKey", value="fjklhffhofjo12365678"
-        )
         product_serverless_api.add_method('POST')
         product_serverless_api.add_method('PATCH')  # To modify single item
         product_serverless_api.add_method('DELETE')
         products_serverless_api = serverless_api.root.add_resource('products')
         products_serverless_api.add_method('GET')
-        # deployment = aws_apigateway.Deployment(stack, "serverless-api-deploy", api=serverless_api)
-        # aws_apigateway.Stage(stack, "dev", deployment=deployment)
 
     @staticmethod
     def create_lambda_functions(
